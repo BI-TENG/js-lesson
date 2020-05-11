@@ -14,7 +14,15 @@
     <!-- button沒有 @keydown -->
     <input type="button" value="新增" @click="add">
     <ul>
-      <li v-for="item in items">{{item}}</li>
+      <li v-for="item in items">
+        <!-- 打勾的功能 -->
+        <input type="checkbox" :checked="item.done" @change="toggle(item)">
+        <!-- 刪除線標籤 -->
+        <!-- 如果完成，是顯示刪除標籤 -->
+        <del v-if="item.done"> {{item.text}} </del>
+        <!-- 否則顯示一般文字 -->
+        <span v-else>{{item.text}}</span>
+      </li>
     </ul>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -30,10 +38,13 @@
         add() {
           // 字數要 > 2
           if (this.newitem.length > 2) {
-            this.items.push(this.newitem)
+            this.items.push({ done: false, text: this.newitem })
             // 新增後清空欄位
             this.newitem = ''
           }
+        },
+        toggle(item) {
+          item.done = !item.done
         }
       },
       computed: {
@@ -41,12 +52,7 @@
           return (this.newitem.length > 2) ? 'green' : 'red'
         }
       },
-      // 監聽，資料保存
-      watch: {
-        items() {
-          console.log('aaa')
-        }
-      }
+
     })
   </script>
 </body>
