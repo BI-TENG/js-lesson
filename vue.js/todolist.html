@@ -56,6 +56,22 @@
           return (this.newitem.length > 2) ? 'green' : 'red'
         }
       },
+      // 監聽
+      watch: {
+        // newitem=> data 名稱
+        newitem(newValue, oldValue) {
+          console.log('東西改變了');
+        },
+        items: {
+          // 要加上 deep:true，才能知道裡面的值有改變
+          deep: true,
+          // handler 固定名稱
+          handler(newValue, oldValue) {
+            localStorage.setItem('todo', JSON.stringify(this.items))
+            console.log('陣列改變了');
+          }
+        }
+      }
     })
   </script>
 </body>
