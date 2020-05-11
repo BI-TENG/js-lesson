@@ -14,7 +14,7 @@
     <!-- button沒有 @keydown -->
     <input type="button" value="新增" @click="add">
     <ul>
-      <li v-for="item in items">
+      <li v-for="(item, index) in items">
         <!-- 打勾的功能 -->
         <input type="checkbox" :checked="item.done" @change="toggle(item)">
         <!-- 刪除線標籤 -->
@@ -22,6 +22,7 @@
         <del v-if="item.done"> {{item.text}} </del>
         <!-- 否則顯示一般文字 -->
         <span v-else>{{item.text}}</span>
+        <input type="button" value="x" @click="del(index)">
       </li>
     </ul>
   </div>
@@ -45,6 +46,9 @@
         },
         toggle(item) {
           item.done = !item.done
+        },
+        del(index) {
+          this.items.splice(index, 1)
         }
       },
       computed: {
@@ -52,7 +56,6 @@
           return (this.newitem.length > 2) ? 'green' : 'red'
         }
       },
-
     })
   </script>
 </body>
