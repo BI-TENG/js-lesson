@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .red {
+      color: red;
+    }
+
+    .big {
+      font-size: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 兩個{}是抓data -->
+    <!-- 網頁呈現方式有兩種，都相同 -->
+    <p v-text="msg"></p>
+    <p>{{msg}}</p>
+
+    <!-- 連結，不能以第二種方式寫 -->
+    <p v-html="msg2"></p>
+    <p>{{msg2}}</p>
+
+    <!-- 數字，符合條件才出現在 DOM -->
+    <p v-if="number === 1">數字是 1</p>
+    <p v-else-if="number === 2">數字是 2</p>
+    <p v-else>數字是其他</p>
+
+    <!-- 符合條件才顯示，不符合是 display:none -->
+    <p v-show="number === 1">數字是 1 (v-show)</p>
+
+    <!-- 陣列，陣列有幾個，標籤就會出現幾次，跑[]-->
+    <ul>
+      <li v-for="fruit in fruits">{{fruit}}</li>
+    </ul>
+    <ul>
+      <li v-for="(fruit,index) in fruits">{{index + 1 + "-" + fruit}}</li>
+    </ul>
+
+    <!-- jeson1，跑{} -->
+    <!-- index 是指 key值 => 0,1-->
+    <ul>
+      <li v-for="(web,key,index) in webs">{{web + "." + key + "." + index}}</li>
+    </ul>
+
+    <!-- 圖片 -->
+    <!-- 一張圖 -->
+    <img v-bind:src="img" width="100px">
+    <img :src="img" width="100px">
+    <!-- 三張圖一起 -->
+    <img v-for="image in images" :src="image" width="100px">
+
+    <!-- style -->
+    <h1 :style="style">aaa</h1>
+    <h1 :style="{backgroundColor: 'red',fontSize: '50px'}">aaa</h1>
+    <h1 :style="{backgroundColor: color,fontSize: '50px'}">aaa</h1>
+
+    <!-- class -->
+    <h1 :class="myClass">aaa</h1>
+    <h1 :class="{red: isRed,big:false}">aaa</h1>
+
+    <!-- v-model是跟 data 的 key值綁在一起，也就是key的value值改，其他相關東西也會跟者改 -->
+    <input type="text" v-model=msg>{{text}}
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script>
+    new Vue({
+      // 哪一個東西，這裡指 div 的 id
+      el: '#app',
+      // 名稱
+      name: 'app',
+      data: {
+        msg: 'Hello Vue',
+        msg2: '<a href="http://google.com">連結</a>',
+        number: 1,
+        fruits: ['蘋果', '香蕉', '西瓜', '芭樂', '芒果'],
+        webs: {
+          fb: 'facebook',
+          yt: 'youtube'
+        },
+        img: 'http://76.com.tw/happy/download/04/images/01.jpg',
+        images: [
+          'http://76.com.tw/happy/download/04/images/03.jpg',
+          'http://76.com.tw/happy/download/04/images/05.jpg',
+          'http://76.com.tw/happy/download/04/images/02.jpg'
+        ],
+        // 綁style，必須是 jeson，而且要駝峰命名
+        style: {
+          backgroundColor: 'red',
+          fontSize: '50px'
+        },
+        myClass: {
+          red: true,
+          big: false
+        },
+        color: 'blue',
+        isRed: true,
+        text: ''
+      }
+    })
+  </script>
+</body>
+
+</html>
