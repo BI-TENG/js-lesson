@@ -58,6 +58,7 @@
       },
       // 監聽
       watch: {
+
         // newitem=> data 名稱
         newitem(newValue, oldValue) {
           console.log('東西改變了');
@@ -70,6 +71,12 @@
             localStorage.setItem('todo', JSON.stringify(this.items))
             console.log('陣列改變了');
           }
+        }
+      },
+      mounted() {
+        const data = localStorage.getItem('todo')
+        if (data !== null) {
+          this.items = JSON.parse(data)
         }
       }
     })
