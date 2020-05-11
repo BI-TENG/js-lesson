@@ -72,6 +72,8 @@
           }
         }
       },
+      // 看電腦裡是否有資料，有資料便會顯示出來
+      // 將 localStorage(文字)轉成陣列
       mounted() {
         const data = localStorage.getItem('todo')
         if (data !== null) {
