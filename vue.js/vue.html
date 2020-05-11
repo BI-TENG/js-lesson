@@ -66,7 +66,24 @@
     <h1 :class="{red: isRed,big:false}">aaa</h1>
 
     <!-- v-model是跟 data 的 key值綁在一起，也就是key的value值改，其他相關東西也會跟者改 -->
-    <input type="text" v-model=msg>{{text}}
+    <input type="text" v-model=msg>改變值<br>
+    <input type="text" v-model="text"><br>
+    <input type="text" v-model="text" @keydown.enter="add">按enter鍵新增
+
+    <!-- 事件綁定 -->
+    <!-- add 的 function 是寫在  methods裡 -->
+    <!-- v-on:click(事件名稱) -->
+    <!-- 按按鈕，在 fruit 裡面新增資訊 -->
+    <input type="button" value="按鈕" v-on:click="add">
+    <!-- 簡寫 -->
+    <!-- <input type="button" value="按鈕" @click="add"> -->
+
+    <!-- 第一個 click 不讓他跳頁 -->
+    <!-- 第二個 click 跳出事件 A標籤 -->
+    <a href="https://fb.com" @click.prevent="click">連結</a>
+
+    <!-- 運算過後顯示出網頁 -->
+    <p>我有{{count}}個水果</p>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
@@ -105,6 +122,27 @@
         color: 'blue',
         isRed: true,
         text: ''
+      },
+      methods: {
+        add() {
+          if (this.text.length > 0) {
+            this.fruits.push(this.text)
+            this.text = ''
+          }
+        },
+        // click() {
+        //   alert('沒有跳頁')
+        // }
+        // 跳到事件的 a 標籤
+        click(event) {
+          alert(event.target.tagName)
+          console.log(event)
+        }
+      },
+      computed: {
+        count() {
+          return this.fruits.length
+        }
       }
     })
   </script>
