@@ -56,26 +56,28 @@
           return (this.newitem.length > 2) ? 'green' : 'red'
         }
       },
-      // 監聽
+      // 監聽，保存資料
       watch: {
         // newitem=> data 名稱
         newitem(newValue, oldValue) {
           console.log('東西改變了');
         },
+        // 儲存到 localStorage，這裡是字串
         items: {
           // 要加上 deep:true，才能知道陣列裡面的值有改變
           deep: true,
           // handler 固定名稱
           handler(newValue, oldValue) {
-            localStorage.setItem('todo', JSON.stringify(this.items))
+            localStorage.setItem('asd', JSON.stringify(this.items))
             console.log('陣列改變了');
           }
         }
       },
-      // 看電腦裡是否有資料，有資料便會顯示出來
       // 將 localStorage(文字)轉成陣列
+      // 看電腦裡是否有資料，有資料便會在網頁顯示出來
+      // 沒有 mounted，網頁上是不會顯示資料的
       mounted() {
-        const data = localStorage.getItem('todo')
+        const data = localStorage.getItem('asd')
         if (data !== null) {
           this.items = JSON.parse(data)
         }
