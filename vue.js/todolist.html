@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- style的寫法是寬度 樣式 顏色，中間要有"空白" -->
+    <input type="text" v-model="newitem" @keydown.enter="add" :style="{border:'10px solid '+ borderColor}">
+    <!-- button沒有 @keydown -->
+    <input type="button" value="新增" @click="add">
+    <ul>
+      <li v-for="item in items">{{item}}</li>
+    </ul>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      name: 'app',
+      data: {
+        newitem: '',
+        items: []
+      },
+      methods: {
+        add() {
+          // 字數要 > 2
+          if (this.newitem.length > 2) {
+            this.items.push(this.newitem)
+            // 新增後清空欄位
+            this.newitem = ''
+          }
+        }
+      },
+      computed: {
+        borderColor() {
+          return (this.newitem.length > 2) ? 'green' : 'red'
+        }
+      },
+      // 監聽，資料保存
+      watch: {
+        items() {
+          console.log('aaa')
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
