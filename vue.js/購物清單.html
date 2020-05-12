@@ -25,9 +25,9 @@
     <ul>
       <li v-for="(item, index) in items">
         <input type="checkbox" :checked="item.done" @change="toggle(item)">
-        <span :class="{del: item.done}">{{item.text}}</span>
+        <span :class="{del: item.done}" @dblclick="double(item)">{{item.text}}</span>
         <input type="button" value="x" @click="del(index)">
-
+        <input type="text" v-model="item.text" @keydown.enter="" v-show="item.see">
       </li>
     </ul>
   </div>
@@ -43,7 +43,7 @@
       methods: {
         add() {
           if (this.newitem.length >= 2) {
-            this.items.push({ done: false, text: this.newitem })
+            this.items.push({ done: false, text: this.newitem, see: false, model: this.newitem })
             this.newitem = ""
           }
         },
@@ -52,6 +52,9 @@
         },
         del(index) {
           this.items.splice(index, 1)
+        },
+        double(item) {
+          item.see = true
         }
       },
       // computed 一定要 return
