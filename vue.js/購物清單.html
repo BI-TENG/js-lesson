@@ -22,12 +22,17 @@
     <input type="text" placeholder="新增事項" v-model="newitem" @keydown.enter="add"
       :style="{border:'3px solid '+ borderColor}">
     <input type="button" value="新增" @click="add">
+    <hr>
+    <input type="button" value="顯示全部" @click="filter='全部'">
+    <input type="button" value="顯示已完成" @click="filter='已完成'">
+    <input type="button" value="顯示未完成" @click="filter='未完成'">
     <ul>
-      <li v-for="(item, index) in items">
+      <li v-for="(item, index) in filteredItems">
         <input type="checkbox" :checked="item.done" @change="toggle(item)">
-        <span :class="{del: item.done}" @dblclick="double(item)">{{item.text}}</span>
+        <span :class="{del: item.done}" @dblclick="edit(item)">{{item.text}}</span>
+        <input type="text" v-if="item.edit" v-model="item.model" @keydown.enter="editFinish(item)"
+          @keydown.esc="editCancel(item)">
         <input type="button" value="x" @click="del(index)">
-        <input type="text" v-model="item.text" @keydown.enter="" v-show="item.see">
       </li>
     </ul>
   </div>
@@ -38,12 +43,15 @@
       name: 'app',
       data: {
         newitem: '',
-        items: []
+        items: [],
+        // 儲存過濾的狀態
+        filter: '全部'
       },
       methods: {
         add() {
           if (this.newitem.length >= 2) {
-            this.items.push({ done: false, text: this.newitem, see: false, model: this.newitem })
+            // text: this.newitem => 編輯前 / model: this.newitem => 編輯後
+            this.items.push({ done: false, text: this.newitem, edit: false, model: this.newitem })
             this.newitem = ""
           }
         },
@@ -53,14 +61,51 @@
         del(index) {
           this.items.splice(index, 1)
         },
-        double(item) {
-          item.see = true
+        edit(item) {
+          item.edit = true
+        },
+        editFinish(item) {
+          item.edit = false
+          item.text = item.model
+        },
+        editCancel(item) {
+          item.edit = false
+          item.model = item.text
         }
       },
       // computed 一定要 return
       computed: {
         borderColor() {
           return (this.newitem.length > 2) ? 'blue' : (this.newitem.length == 0) ? 'black' : 'red'
+        },
+        filteredItems() {
+          switch (this.filter) {
+            case '全部':
+              return this.items
+              break
+            case '已完成':
+              return this.items.filter(item => {
+                // if (item.done === true) {
+                //   return true
+                // }
+                // else {
+                //   return false
+                // }
+                return item.done === true
+              })
+              break
+            case '未完成':
+              return this.items.filter(item => {
+                // if (item.done === false) {
+                //   return true
+                // }
+                // else {
+                //   return false
+                // }
+                return item.done === false
+              })
+              break
+          }
         }
       },
       watch: {
